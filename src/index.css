@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Tailwind v4: enable dark mode via .dark class on html element */
+@variant dark (&:where(.dark, .dark *));
+
+/* Custom Leaflet Styles */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 10 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 12px;
+  min-width: 150px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Font */
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
