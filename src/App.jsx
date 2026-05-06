@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import ReportDetails from './pages/ReportDetails';
 import Login from './pages/Login';
+import MyReports from './pages/MyReports';
+import { AuthProvider } from './context/AuthContext';
 import { ToastContainer, useToast } from './components/Toast';
 import { reports } from './data/reports';
 
@@ -47,6 +49,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/my-reports" element={<MyReports />} />
           <Route path="/report/:id" element={<ReportDetails />} />
           <Route path="/login" element={<Login />} />
         </Routes>
@@ -59,13 +62,15 @@ function AppContent() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </LanguageProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </LanguageProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

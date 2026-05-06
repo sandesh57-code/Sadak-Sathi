@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
 import { login } from '../services/auth';
 import { useToast } from './Toast';
+import { useAuth } from '../context/AuthContext';
 import RoleSelector from './RoleSelector';
 
 const LoginForm = () => {
@@ -15,6 +16,7 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({});
 
   const { addToast } = useToast();
+  const { login: authLogin } = useAuth();
   const navigate = useNavigate();
 
   const validate = () => {
@@ -42,6 +44,7 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       const data = await login(email, password, role);
+      authLogin(data);
       addToast(`Welcome back, ${data.user.name}! Login successful.`, 'success');
       
       // Redirect based on role
