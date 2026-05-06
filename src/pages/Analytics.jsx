@@ -6,7 +6,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area 
 } from 'recharts';
-import { TrendingUp, Clock, MapPin, PieChart as PieIcon } from 'lucide-react';
+import { Activity, Clock, MapPin, BarChart3 as PieIcon } from 'lucide-react';
 
 const Analytics = () => {
   const { t } = useLanguage();
@@ -140,7 +140,7 @@ const Analytics = () => {
           {/* Monthly Trend */}
           <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm lg:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <TrendingUp className="text-purple-600" size={20} />
+              <Activity className="text-purple-600" size={20} />
               <h3 className="font-bold text-slate-900 dark:text-white uppercase tracking-tight">Monthly Report Trend</h3>
             </div>
             <div className="h-80">
