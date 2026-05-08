@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero';
 import StatsSection from '../components/StatsSection';
 import MapPreview from '../components/MapPreview';
@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 
 const Home = () => {
+  const navigate = useNavigate();
   const features = [
     {
       icon: Zap,
@@ -85,7 +86,7 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen pt-16">
       {/* Hero Section */}
-      <Hero onReportClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} />
+      <Hero onReportClick={() => navigate('/my-reports')} />
 
       {/* Impact Stats */}
       <StatsSection />
@@ -121,7 +122,10 @@ const Home = () => {
           </div>
 
           <div className="mt-16 text-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-black py-5 px-12 rounded-[24px] shadow-2xl shadow-blue-500/30 transition-all flex items-center justify-center mx-auto group active:scale-95">
+            <button
+              onClick={() => navigate('/my-reports')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-black py-5 px-12 rounded-[24px] shadow-2xl shadow-blue-500/30 transition-all flex items-center justify-center mx-auto group active:scale-95"
+            >
               <span>Start Reporting</span>
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
             </button>

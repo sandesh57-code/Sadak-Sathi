@@ -34,7 +34,7 @@ const Navbar = ({ onMenuClick }) => {
     { to: '/', label: 'Home', icon: Globe },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/analytics', label: 'Analytics', icon: BarChart3 },
-    { to: '/my-reports', label: 'My Reports', icon: FileText, authRequired: true },
+    { to: '/my-reports', label: 'My Reports', icon: FileText },
     { to: '/#how-it-works', label: 'How It Works', icon: HelpCircle },
     { to: '/#about', label: 'About', icon: Info },
   ];
