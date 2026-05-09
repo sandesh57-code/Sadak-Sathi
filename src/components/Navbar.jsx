@@ -8,19 +8,19 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
-import UserSettingsDropdown from './UserSettingsDropdown';
+import AccountDropdown from './AccountDropdown';
 
 const Navbar = ({ onMenuClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -126,23 +126,27 @@ const Navbar = ({ onMenuClick }) => {
                   </button>
                   <div className="relative">
                     <button 
-                      onClick={() => setIsProfileOpen(!isProfileOpen)}
-                      className="flex items-center space-x-2 p-1 pl-3 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl hover:shadow-md transition-all"
+                      id="user-menu-button"
+                      aria-haspopup="true"
+                      aria-expanded={isAccountOpen}
+                      onClick={() => setIsAccountOpen(!isAccountOpen)}
+                      className={`flex items-center space-x-2 p-1.5 pl-3 border rounded-xl transition-all ${
+                        isAccountOpen 
+                        ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800 ring-2 ring-blue-500/10' 
+                        : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:shadow-md'
+                      }`}
                     >
                       <span className="text-xs font-black text-slate-700 dark:text-slate-300 hidden sm:block">My Account</span>
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
-                        JD
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                        {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'JD'}
                       </div>
-                      <ChevronDown size={14} className={`text-slate-400 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 ${isAccountOpen ? 'rotate-180' : ''}`} />
                     </button>
-                    {isProfileOpen && (
-                      <div className="absolute right-0 mt-2 w-56 animate-in fade-in zoom-in duration-200">
-                        <UserSettingsDropdown onClose={() => setIsProfileOpen(false)} />
-                      </div>
-                    )}
+                    <AccountDropdown isOpen={isAccountOpen} onClose={() => setIsAccountOpen(false)} />
                   </div>
                 </div>
               )}
+
 
               {/* Mobile Menu Button */}
               <button 
