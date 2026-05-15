@@ -15,8 +15,8 @@ const SEVERITIES = [
 ];
 
 const INITIAL = {
-  image: null,
-  imagePreview: null,
+  images: [],
+  imagePreviews: [],
   lat: '',
   lng: '',
   district: '',
@@ -37,25 +37,35 @@ const ReportSubmissionForm = ({ onSubmit }) => {
     setErrors(prev => ({ ...prev, [key]: '' }));
   };
 
-  const handleImageFile = (file) => {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setForm(prev => ({ ...prev, image: file, imagePreview: reader.result }));
-      setErrors(prev => ({ ...prev, image: '' }));
-    };
-    reader.readAsDataURL(file);
+  const handleImageFiles = async (files) => {
+    const validFiles = Array.from(files).filter(f => f && f.type.startsWith('image/'));
+    if (!validFiles.length) return;
+
+    const newPreviews = await Promise.all(validFiles.map(file => {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    }));
+
+    setForm(prev => ({
+      ...prev,
+      images: [...prev.images, ...validFiles],
+      imagePreviews: [...prev.imagePreviews, ...newPreviews]
+    }));
+    setErrors(prev => ({ ...prev, images: '' }));
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     setDragging(false);
-    handleImageFile(e.dataTransfer.files[0]);
+    handleImageFiles(e.dataTransfer.files);
   };
 
   const validate = () => {
     const errs = {};
-    if (!form.image)       errs.image       = 'Please upload a pothole image.';
+    if (form.images.length === 0) errs.images = 'Please upload at least one pothole image.';
     if (!form.district)    errs.district    = 'Please select a district.';
     if (!form.lat)         errs.location    = 'Latitude is required.';
     if (!form.lng)         errs.location    = (errs.location || '') + ' Longitude is required.';
@@ -79,7 +89,8 @@ const ReportSubmissionForm = ({ onSubmit }) => {
       severity:    form.severity,
       status:      'Pending',
       clusterId:   `CL-${Math.floor(Math.random() * 20 + 1).toString().padStart(2, '0')}`,
-      image:       form.imagePreview,
+      image:       form.imagePreviews[0] || null,
+      images:      form.imagePreviews,
       createdAt:   new Date().toISOString().slice(0, 10),
       description: form.description.trim(),
       department:  `${form.district} Road Division`,
@@ -110,60 +121,68 @@ const ReportSubmissionForm = ({ onSubmit }) => {
       {/* ── 1. Image upload ── */}
       <div>
         <label className="block text-xs font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-3">
-          Pothole Image <span className="text-red-500">*</span>
+          Pothole Images <span className="text-red-500">*</span>
         </label>
 
-        {form.imagePreview ? (
-          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
-            <img
-              src={form.imagePreview}
-              alt="Preview"
-              className="w-full h-56 object-cover"
-            />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <button
-                type="button"
-                onClick={() => setForm(prev => ({ ...prev, image: null, imagePreview: null }))}
-                className="bg-red-500 text-white p-3 rounded-2xl hover:bg-red-600 transition-all"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-black px-3 py-1 rounded-lg uppercase tracking-widest">
-              ✓ Uploaded
-            </div>
-          </div>
-        ) : (
-          <div
-            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all ${
-              dragging
-                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10'
-                : errors.image
-                ? 'border-red-400 bg-red-50 dark:bg-red-900/10'
-                : 'border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
-            }`}
-          >
-            <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mb-4">
-              <Upload size={26} className="text-blue-600" />
-            </div>
-            <p className="font-bold text-slate-700 dark:text-slate-300 text-sm">
-              Drag &amp; drop image here or <span className="text-blue-600 underline underline-offset-2">browse</span>
-            </p>
-            <p className="text-xs text-slate-400 mt-1 font-medium">Supports JPG, PNG, WEBP</p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => handleImageFile(e.target.files[0])}
-            />
+        {form.imagePreviews.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+            {form.imagePreviews.map((preview, idx) => (
+              <div key={idx} className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group h-32">
+                <img
+                  src={preview}
+                  alt={`Preview ${idx + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm(prev => ({
+                        ...prev,
+                        images: prev.images.filter((_, i) => i !== idx),
+                        imagePreviews: prev.imagePreviews.filter((_, i) => i !== idx)
+                      }));
+                    }}
+                    className="bg-red-500 text-white p-2 rounded-xl hover:bg-red-600 transition-all"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
-        {errors.image && <p className="text-red-500 text-xs font-semibold mt-2">{errors.image}</p>}
+
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+          className={`border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all ${
+            dragging
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10'
+              : errors.images
+              ? 'border-red-400 bg-red-50 dark:bg-red-900/10'
+              : 'border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+          }`}
+        >
+          <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mb-4">
+            <Upload size={26} className="text-blue-600" />
+          </div>
+          <p className="font-bold text-slate-700 dark:text-slate-300 text-sm">
+            Drag &amp; drop images here or <span className="text-blue-600 underline underline-offset-2">browse</span>
+          </p>
+          <p className="text-xs text-slate-400 mt-1 font-medium">Supports JPG, PNG, WEBP</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handleImageFiles(e.target.files)}
+          />
+        </div>
+        {errors.images && <p className="text-red-500 text-xs font-semibold mt-2">{errors.images}</p>}
       </div>
 
       {/* ── 2. GPS Location ── */}
