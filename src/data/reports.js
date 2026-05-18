@@ -7,7 +7,7 @@ export const reports = [
     severity: "Critical",
     status: "Pending",
     clusterId: "CL-01",
-    image: "https://images.unsplash.com/photo-1515162305114-8d3ad083836d?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/kathmandu.png",
     createdAt: "2026-05-01",
     department: "Road Division Kathmandu",
     description: "Large pothole near Kalanki junction causing traffic congestion."
@@ -20,7 +20,7 @@ export const reports = [
     severity: "High",
     status: "In Progress",
     clusterId: "CL-01",
-    image: "https://images.unsplash.com/photo-1584462224747-97d1361f1816?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/lalitpur.png",
     createdAt: "2026-05-02",
     department: "Lalitpur Metropolitan City",
     description: "Deep pothole at Patan Dhoka."
@@ -33,7 +33,7 @@ export const reports = [
     severity: "Medium",
     status: "Resolved",
     clusterId: "CL-02",
-    image: "https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/lalitpur.png",
     createdAt: "2026-05-03",
     department: "Bhaktapur Municipality",
     description: "Minor road surface damage near Kamal Pokhari."
@@ -46,7 +46,7 @@ export const reports = [
     severity: "Low",
     status: "Pending",
     clusterId: "CL-03",
-    image: "https://images.unsplash.com/photo-1515162305114-8d3ad083836d?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/pokhara.png",
     createdAt: "2026-05-04",
     department: "Pokhara Road Division",
     description: "Small crack appearing on Lakeside road."
@@ -59,7 +59,7 @@ export const reports = [
     severity: "Critical",
     status: "Pending",
     clusterId: "CL-04",
-    image: "https://images.unsplash.com/photo-1584462224747-97d1361f1816?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/chitwan.png",
     createdAt: "2026-05-05",
     department: "Bharatpur Municipality",
     description: "Dangerous pothole on East-West Highway segment."
@@ -72,7 +72,7 @@ export const reports = [
     severity: "High",
     status: "Pending",
     clusterId: "CL-01",
-    image: "https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/kathmandu.png",
     createdAt: "2026-05-05",
     department: "Road Division Kathmandu",
     description: "Sunken road surface near New Road."
@@ -85,7 +85,7 @@ export const reports = [
     severity: "Medium",
     status: "In Progress",
     clusterId: "CL-05",
-    image: "https://images.unsplash.com/photo-1515162305114-8d3ad083836d?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/pokhara.png",
     createdAt: "2026-05-04",
     department: "Butwal Sub-Metropolitan City",
     description: "Multiple small potholes on main market road."
@@ -98,7 +98,7 @@ export const reports = [
     severity: "Low",
     status: "Resolved",
     clusterId: "CL-06",
-    image: "https://images.unsplash.com/photo-1584462224747-97d1361f1816?q=80&w=400&auto=format&fit=crop",
+    image: "/images/reports/chitwan.png",
     createdAt: "2026-04-28",
     department: "Biratnagar Road Division",
     description: "Repaired pothole near bus park."
