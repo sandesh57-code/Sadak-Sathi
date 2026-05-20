@@ -30,10 +30,8 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const reportsPerPage = 6;
 
+  // All setState calls happen inside async callbacks — never synchronously in the effect
   const loadData = (force = false) => {
-    setRefreshing(force);
-    if (!force) setLoading(true);
-
     Promise.all([fetchReports(force), fetchStats()])
       .then(([reportsData, statsData]) => {
         setReports(reportsData);
@@ -46,10 +44,16 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
       });
   };
 
+  // Initial load — loading starts as true so no sync setState needed here
   useEffect(() => {
     loadData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Refresh button handler — sync setState is fine in event handlers
+  const handleRefresh = () => {
+    setRefreshing(true);
+    loadData(true);
+  };
 
   // Reset to page 1 whenever filters change — done in the setter wrapper below
   const handleSetFilters = (newFilters) => {
@@ -111,7 +115,7 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
               </p>
             </div>
             <button
-              onClick={() => loadData(true)}
+              onClick={handleRefresh}
               className={`flex items-center space-x-2 px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm ${refreshing ? 'opacity-60 cursor-not-allowed' : ''}`}
               disabled={refreshing}
             >
