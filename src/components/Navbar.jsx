@@ -89,7 +89,7 @@ const Navbar = ({ onMenuClick }) => {
                 <button
                   key={link.to}
                   onClick={() => handleLinkClick(link)}
-                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center space-x-2 ${
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center space-x-2 cursor-pointer ${
                     location.pathname === link.to 
                       ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' 
                       : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
@@ -107,20 +107,20 @@ const Navbar = ({ onMenuClick }) => {
                 <div className="hidden sm:flex items-center space-x-3">
                   <button 
                     onClick={() => setIsLoginModalOpen(true)}
-                    className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors px-4 py-2"
+                    className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors px-4 py-2 cursor-pointer"
                   >
                     Login
                   </button>
                   <button 
                     onClick={() => setIsSignupModalOpen(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-black px-6 py-2.5 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95"
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-black px-6 py-2.5 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 cursor-pointer"
                   >
                     Sign Up
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <button className="p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all relative">
+                  <button className="p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all relative cursor-pointer">
                     <Bell size={20} />
                     <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
                   </button>
@@ -130,7 +130,7 @@ const Navbar = ({ onMenuClick }) => {
                       aria-haspopup="true"
                       aria-expanded={isAccountOpen}
                       onClick={() => setIsAccountOpen(!isAccountOpen)}
-                      className={`flex items-center space-x-2 p-1.5 pl-3 border rounded-xl transition-all ${
+                      className={`flex items-center space-x-2 p-1.5 pl-3 border rounded-xl transition-all cursor-pointer ${
                         isAccountOpen 
                         ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800 ring-2 ring-blue-500/10' 
                         : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:shadow-md'
@@ -151,7 +151,7 @@ const Navbar = ({ onMenuClick }) => {
               {/* Mobile Menu Button */}
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"
+                className="lg:hidden p-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all cursor-pointer"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -167,7 +167,7 @@ const Navbar = ({ onMenuClick }) => {
                 <button
                   key={link.to}
                   onClick={() => handleLinkClick(link)}
-                  className="w-full flex items-center space-x-3 p-4 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+                  className="w-full flex items-center space-x-3 p-4 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer"
                 >
                   <link.icon size={20} className="text-blue-600" />
                   <span>{link.label}</span>
@@ -177,13 +177,13 @@ const Navbar = ({ onMenuClick }) => {
                 <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
                   <button 
                     onClick={() => { setIsLoginModalOpen(true); setIsMobileMenuOpen(false); }}
-                    className="p-4 rounded-2xl font-bold text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800"
+                    className="p-4 rounded-2xl font-bold text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 cursor-pointer"
                   >
                     Login
                   </button>
                   <button 
                     onClick={() => { setIsSignupModalOpen(true); setIsMobileMenuOpen(false); }}
-                    className="p-4 rounded-2xl font-black text-white bg-blue-600"
+                    className="p-4 rounded-2xl font-black text-white bg-blue-600 cursor-pointer"
                   >
                     Sign Up
                   </button>
