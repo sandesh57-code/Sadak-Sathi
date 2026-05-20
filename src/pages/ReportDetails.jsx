@@ -73,7 +73,7 @@ const ReportDetails = () => {
                 alt={`Pothole in ${report.district}`}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="flex flex-wrap items-center gap-2 mb-3">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold ${sev.bg} ${sev.text}`}>

@@ -106,7 +106,7 @@ const MyReports = () => {
       {/* ── Toast ── */}
       {toast && (
         <div
-          className={`fixed top-24 right-6 z-[9999] flex items-center space-x-3 px-5 py-4 rounded-2xl shadow-2xl border font-semibold text-sm animate-[slideIn_0.3s_ease] ${
+          className={`fixed top-24 right-6 z-9999 flex items-center space-x-3 px-5 py-4 rounded-2xl shadow-2xl border font-semibold text-sm animate-[slideIn_0.3s_ease] ${
             toast.type === 'success'
               ? 'bg-green-50 dark:bg-green-900/40 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300'
               : 'bg-red-50 dark:bg-red-900/40 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300'
@@ -196,7 +196,7 @@ const MyReports = () => {
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="w-full py-10 rounded-[32px] border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 bg-white dark:bg-slate-900 flex flex-col items-center justify-center space-y-3 transition-all group"
+              className="w-full py-10 rounded-4xl border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 bg-white dark:bg-slate-900 flex flex-col items-center justify-center space-y-3 transition-all group"
             >
               <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Plus size={26} className="text-blue-600" />

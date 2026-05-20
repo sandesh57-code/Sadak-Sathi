@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchReports, fetchStats } from '../services/api';
 import MapView from '../components/MapView';
@@ -30,33 +30,32 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const reportsPerPage = 6;
 
-  const loadData = async (force = false) => {
+  const loadData = (force = false) => {
     setRefreshing(force);
     if (!force) setLoading(true);
 
-    try {
-      const [reportsData, statsData] = await Promise.all([
-        fetchReports(force),
-        fetchStats()
-      ]);
-      setReports(reportsData);
-      setStats(statsData);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
+    Promise.all([fetchReports(force), fetchStats()])
+      .then(([reportsData, statsData]) => {
+        setReports(reportsData);
+        setStats(statsData);
+      })
+      .catch(console.error)
+      .finally(() => {
+        setLoading(false);
+        setRefreshing(false);
+      });
   };
 
   useEffect(() => {
     loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Reset to page 1 whenever filters change
-  useEffect(() => {
+  // Reset to page 1 whenever filters change — done in the setter wrapper below
+  const handleSetFilters = (newFilters) => {
+    setFilters(newFilters);
     setCurrentPage(1);
-  }, [filters]);
+  };
 
   const filteredReports = useMemo(() => {
     return reports.filter(report => {
@@ -93,7 +92,7 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
 
       <SidebarFilters
         filters={filters}
-        setFilters={setFilters}
+        setFilters={handleSetFilters}
         isOpen={isSidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
@@ -137,7 +136,7 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
               </div>
             </div>
             {loading ? (
-              <div className="h-[500px] w-full bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+              <div className="h-125 w-full bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
             ) : (
               <MapView reports={filteredReports} />
             )}
@@ -220,7 +219,7 @@ const Dashboard = ({ isSidebarOpen, setSidebarOpen }) => {
                 </div>
                 <p className="text-slate-500 dark:text-slate-400 font-bold">{t('noReports')}</p>
                 <button
-                  onClick={() => setFilters({ search: '', district: 'all', severity: 'all', status: 'all' })}
+                  onClick={() => handleSetFilters({ search: '', district: 'all', severity: 'all', status: 'all' })}
                   className="mt-4 text-xs text-blue-600 font-bold hover:underline"
                 >
                   Clear all filters
