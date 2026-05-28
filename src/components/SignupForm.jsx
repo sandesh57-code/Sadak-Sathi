@@ -84,7 +84,7 @@ const SignupForm = ({ onSuccess }) => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              placeholder="John Doe"
+              placeholder="Madan Bhandari"
               className={`w-full pl-10 pr-4 py-2.5 border-2 rounded-xl focus:outline-none transition-all dark:bg-slate-900 ${errors.fullName ? 'border-red-500' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500'}`}
             />
           </div>
@@ -117,7 +117,7 @@ const SignupForm = ({ onSuccess }) => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="john@example.com"
+            placeholder="abc@gmail.com"
             className={`w-full pl-10 pr-4 py-2.5 border-2 rounded-xl focus:outline-none transition-all dark:bg-slate-900 ${errors.email ? 'border-red-500' : 'border-slate-100 dark:border-slate-800 focus:border-blue-500'}`}
           />
         </div>

@@ -89,7 +89,7 @@ const LoginForm = () => {
                   ? 'border-red-500 bg-red-50 dark:bg-red-900/10'
                   : 'border-slate-100 dark:border-slate-800 focus:border-blue-600'
               }`}
-              placeholder="name@company.com"
+              placeholder="abc@company.com"
             />
           </div>
           {errors.email && (
